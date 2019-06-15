@@ -1,0 +1,45 @@
+<div class='panel panel-primary'>
+    <div class='panel-heading'>
+        {{title}}
+    </div>
+    <div class='panel-body'>
+        <div class="container">
+            <form #formRef="ngForm" (ngSubmit)="onSubmit(formRef.value)">
+                <div class="form-group">
+                    <label for="Title">Movie Title</label>
+                    <input type="text" class="form-control" id="Title" name="Title" [(ngModel)]="Title" required minlength="3" #titleRef="ngModel">
+                    <div *ngIf="titleRef.invalid && (titleRef.dirty || titleRef.touched)" class="alert alert-danger">
+                        <div *ngIf="titleRef.errors.required">
+                            Movie title is required.
+                        </div>
+                        <div *ngIf="titleRef.errors.minlength">
+                            Movie title must be at least 3 characters long.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Description">Movie Description</label>
+                    <input type="text" class="form-control" id="Description" name="Description" [(ngModel)]="Description" required minlength="10" #descRef="ngModel">
+                    <div *ngIf="descRef.invalid && (descRef.dirty || descRef.touched)" class="alert alert-danger">
+                        <div *ngIf="descRef.errors.required">
+                            Movie description is required.
+                        </div>
+                        <div *ngIf="descRef.errors.minlength">
+                            Movie description must be at least 10 characters long.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Ratings">Ratings</label>
+                    <select class="form-control" name="Ratings" [ngModel]="ratings[0]">
+                        <option *ngFor="let rating of ratings" [value]="rating">
+                            {{rating}}
+                        </option>
+                    </select>
+                </div>
+                <button type="submit" style="margin:5px;" class="btn btn-info" [disabled]="formRef.invalid">Submit</button>
+            </form>
+        </div>
+        <button (click)="goBack()" style="margin:5px;" class="btn btn-info">Back</button>
+    </div>
+</div> 

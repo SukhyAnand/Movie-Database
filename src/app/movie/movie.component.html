@@ -1,0 +1,54 @@
+<div class='panel panel-primary'>
+  <div class='panel-heading'>
+    {{title}}
+  </div>
+  <div class='panel-body'>
+    <table style="margin-left:20px" class='table table-striped table-condensed'>
+      <tr>
+        <td>Title:</td>
+        <td>{{movie.Title}}</td>
+      </tr>
+      <tr>
+        <td>Description:</td>
+        <td>{{movie.Description}}</td>
+      </tr>
+      <tr>
+        <td>Rating:</td>
+        <td>{{movie.Rating}}</td>
+      </tr>
+      <tr>
+        <td>Votes:</td>
+        <td>{{movie.Votes}}</td>
+      </tr>
+    </table>
+  </div>
+  <div *ngIf="canReview">
+    <div class="input-area" style="padding: 30px">
+      <h4>Submit a review:</h4>
+      <form (submit)="sendMessage()" name="messageForm" #messageForm="ngForm">
+        <div class="form-group">
+          <label for="Ratings" style="width: 50%">Your rating:</label>
+          <select class="form-control" name="Ratings" [(ngModel)]="message.ratings">
+            <option *ngFor="let rating of ratings" [value]="rating">
+              {{rating}}
+            </option>
+          </select>
+          <br>
+          <textarea type="text" placeholder="Your comment" name="comment" id="comment" [(ngModel)]="message.comment" rows="5"></textarea>
+        </div>
+        <button type="submit" style="margin:5px;" class="btn btn-info">Submit</button>
+      </form>
+    </div>
+  </div>
+  <div>
+    <ul style="padding: 30px" *ngIf="userComment && userComment.length">
+      <h4>Comments:</h4>
+      <div *ngFor="let item of userComment">
+        <br>
+        <th style="min-width: 60px;">{{item.key}}:</th>
+        <td>{{item.value}}</td>
+      </div>
+    </ul>    
+  </div>
+</div>
+<a (click)="goBack()" style="margin:5px;" class="btn btn-info">Back</a>

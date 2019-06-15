@@ -1,0 +1,60 @@
+<div class='panel panel-primary'>
+    <div class='panel-heading'>
+        {{title}}
+        <a style="color: #ffffff;float:right;" align="right" (click)="Logout()">Logout</a>
+    </div>
+    
+    <div class='panel-body'>
+        <div class='row'>
+            <div class='col-md-1'>Filter search:</div>
+            <div class='col-md-3'>
+                <input type='text'
+                    [(ngModel)]='nameFilter' />
+            </div>
+            <div class='col-md-2'>Filter by category:</div>
+            <div class='col-md-3'>
+                <select name="filterCategory" [ngModel]="filterCategories[0]" (change)="setFilterCategory($event)">
+                    <option *ngFor="let filterCategory of filterCategories" [value]="filterCategory">
+                        {{filterCategory}}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <br>
+        <div class='row'>
+            <div class='col-md-2'>Display fields:</div>
+            <div class='col-md-2' *ngFor="let filterCategory of filterCategories">
+                <input [value]="filterCategory" type="checkbox" (change)="toggleEnabledField($event)" checked> {{filterCategory}}
+            </div>
+        </div>
+        <br>
+        <button routerLink="/addMovie" style="margin:5px;" class="btn btn-info" *ngIf='userClaims.IsAdmin'>Add Movie</button>
+        <ul class="grid" *ngIf='movies && movies.length'>
+            <li class="grid_item span__2 h" *ngFor='let movie of movies | movieFilter: nameFilter : selectedFilterCategory'>
+                <a [routerLink]="['/movie',movie.id]" class="grid_link" >
+                <div class="tile">
+                    <br>
+                    <th style="min-width: 60px;" *ngIf='isFieldEnabled[0]'>Title: </th>
+                    <td *ngIf='isFieldEnabled[0]'>{{ movie.Title | uppercase }}</td>
+                    <br>
+                    <th style="min-width: 60px;" *ngIf='isFieldEnabled[1]'>Description: </th><br>
+                    <td *ngIf='isFieldEnabled[1]'>{{ movie.Description }}</td>
+                    <br>
+                    <th style="min-width: 60px;" *ngIf='isFieldEnabled[2]'>Rating: </th>
+                    <td *ngIf='isFieldEnabled[2]'>{{ movie.Rating }}</td>
+                    <br>
+                    <th style="min-width: 60px;" *ngIf='isFieldEnabled[3]'>Votes: </th>
+                    <td *ngIf='isFieldEnabled[3]'>{{ movie.Votes }}</td>
+                    <br>
+                    <div class="grid_item">
+                        <td><a [routerLink]="['/editMovie',movie.id]" class="btn btn-xs btn-primary" *ngIf='userClaims.IsAdmin'>Edit</a></td>
+                    </div>
+                    <div class="grid_item">
+                        <td><a (click)="deleteMovie(movie.id)" [routerLink]="['/home']" class="btn btn-xs btn-danger" *ngIf='userClaims.IsAdmin'>Delete</a></td>
+                    </div>
+                </div></a>
+            </li>
+        </ul>
+        <br>
+    </div>
+</div>
